@@ -19,7 +19,23 @@
 {
     self.pendingStartCompletion = completionHandler;
     [self setupPacketTunnelNetwork];
+    [self readPakcets];
     
+}
+
+
+-(void)readPakcets{
+    
+    __weak typeof(self)weakSelf = self;
+    
+    [self.packetFlow readPacketsWithCompletionHandler:^(NSArray<NSData *> * _Nonnull packets, NSArray<NSNumber *> * _Nonnull protocols) {
+       
+//        [self.packetFlow writePackets:packets withProtocols:protocols];
+        
+        NSLog(@"readpacket = %@",packets);
+        NSLog(@"protocols = %@",protocols);
+        [weakSelf readPakcets];
+    }];
     
 }
 
